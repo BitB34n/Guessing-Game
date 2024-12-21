@@ -1,0 +1,50 @@
+import random
+
+# Generate a random integer between 1 and 100
+secret_num = random.randint(1, 100)
+
+print("Secret number generated between 1 and 100. Input your guess (or type 'quit' to exit):")
+
+last_guess = None  # Variable to store the last guess
+
+while True:
+    user_input = input()  # Get user input as a string
+
+    # Check if the user wants to quit
+    if user_input.lower() == 'quit':
+        print("Thanks for playing! Goodbye!")
+        break  # Exit the loop
+
+    try:
+        # Convert the input to an integer
+        guess = int(user_input)
+
+        # Check for "stupid" guesses
+        if guess < 1 or guess > 100:
+            print("That's a stupid guess! Please guess a number between 1 and 100.")
+            continue  # Skip to the next iteration of the loop
+
+        # Check if the new guess is lower than the last guess after being told it was too low
+        if last_guess is not None and guess < last_guess and last_guess < secret_num:
+            print("That's a stupid guess! You already guessed higher than that.")
+            continue  # Skip to the next iteration of the loop
+
+        # Check if the new guess is higher than the last guess after being told it was too high
+        if last_guess is not None and guess > last_guess and last_guess > secret_num:
+            print("That's a stupid guess! You already guessed lower than that.")
+            continue  # Skip to the next iteration of the loop
+
+        # Update the last guess
+        last_guess = guess
+
+        if guess < secret_num:
+            print("Too low, guess again!")
+        elif guess > secret_num:
+            print("Too high, guess again!")
+        else:  # guess == secret_num
+            print("You win!")
+            break  # Exit the loop when the user guesses correctly
+
+    except ValueError:
+        # Handle non-integer inputs
+        print("Dumbass! Please enter a valid integer or type 'quit' to exit.")
